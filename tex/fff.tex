@@ -19,7 +19,7 @@
 % xelatex or lualatex needed for fontspec
 % maybe the font file have to be installed
 \usepackage{fontspec}
-\setmainfont[Ligatures=TeX]{Jost-Regular}
+\setmainfont[Ligatures=TeX, ItalicFont={Jostitalic}]{Jost}
 
 
 % COLORED SECTIONS
@@ -33,25 +33,26 @@
 \newcommand{\mysection}[1]{%
     \setlength{\fboxsep}{0cm}%already boxed
     
-    \colorbox{fffdgreen!80}{%
+    \colorbox{fffdgreen!100}{%
         \begin{minipage}{\linewidth}%
             \vspace*{5pt}%Space before
             \color{white}
-            #1
+            \MakeUppercase{#1}
             \vspace*{5pt}%Space after
         \end{minipage}%
 }}
+
 % subsection
 
 \addtokomafont{subsection}{\mysectionb}
 \newcommand{\mysectionb}[1]{%
     \setlength{\fboxsep}{0cm}%already boxed
     
-    \colorbox{fffgreen!80}{%
+    \colorbox{fffgreen!100}{%
         \begin{minipage}{\linewidth}%
             \vspace*{5pt}%Space before
             \color{white}
-            #1
+            \MakeUppercase{#1}
             \vspace*{5pt}%Space after
         \end{minipage}%
 }}
@@ -62,19 +63,37 @@
 \newcommand{\mysectionc}[1]{%
     \setlength{\fboxsep}{0cm}%already boxed
     
-    \colorbox{ffflgreen!80}{%
+    \colorbox{ffflgreen!100}{%
         \begin{minipage}{\linewidth}%
             \vspace*{2pt}%Space before
-            #1
+            \textnormal{
+              \MakeUppercase{#1}
+            }
             \vspace*{2pt}%Space after
         \end{minipage}%
 }}
+
+% parallel text
+\newcommand{\paralleltext}[2]{
+\begin{tabularx}{\textwidth}{X X}
+
+#1 & #2 \\
+\end{tabularx}
+}
+
+% parallel text 3 columns
+\newcommand{\paralleltextthreecolums}[3]{
+\begin{tabularx}{\textwidth}{X X X}
+
+#1 & #2 & #3 \\
+\end{tabularx}
+}
 
 % make links green
 \usepackage{hyperref}
 \hypersetup{
     colorlinks=true,
-    linkcolor=black,
+    linkcolor=fffgreen,
     filecolor=fffgreen,      
     urlcolor=fffgreen,
     }
@@ -103,16 +122,36 @@
 
 \newcommand{\announcement}[1]{%
 \begin{tabularx}{\textwidth}{p{1.5cm}X}
-\centering\includegraphics[width=1.5cm]{Lautsprecher.png} & #1 \\
+\centering\includegraphics[width=1.5cm]{Lautsprecher.png} & \textit{#1} \\
 \end{tabularx}
 }
 \newcommand{\hint}[1]{%
 \begin{tabularx}{\textwidth}{p{1.5cm}X}
-\centering\includegraphics[width=1.3cm]{Fragezeichen-Hand.png} & #1 \\
+\centering\includegraphics[width=1.3cm]{Fragezeichen-Hand.png} & \textit{#1} \\
 \end{tabularx}
 }
 
+% for nice table of contents with seperate heading
+\usepackage{tocloft}
+\makeatletter
+\renewcommand{\@cftmaketoctitle}{}
+\makeatother
 
+\renewcommand{\thesubsubsection}{(\Alph{subsubsection})}
+\renewcommand{\autodot}{} % removes dot in chapter numbering
+
+% for enumerate
+\renewcommand{\theenumi}{(\arabic{enumi})}
+\renewcommand{\theenumii}{(\alph{enumii})}
+\renewcommand{\theenumiii}{(\roman{enumiii})}
+\renewcommand{\labelenumi}{\theenumi}
+\renewcommand{\labelenumii}{\theenumii}
+\renewcommand{\labelenumiii}{\theenumiii}
+
+\renewcommand\labelitemi{--}
+
+% for checkmark
+\usepackage{amssymb}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Properties %%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -124,16 +163,18 @@
 \begin{document}
 % place logo big in the middle
 \begin{center}
-    \includegraphics[width=0.5\textwidth]{Logo.png}
+  \includegraphics[width=0.5\textwidth]{Logo.png}
 \end{center}
 
 
 % logo in the left Floating parallell to text
 % for compact layout without table of contents
 
-%\begin{wrapfigure}{r}{0pt}
-%    \includegraphics[width=4.5 cm]{Logo.png}
-%\end{wrapfigure}
+% \begin{tabularx}{\textwidth}{X m{5cm}}
+%   \centering \Huge \color{fffgreen} \MakeUppercase{
+%   Stusspapier                               \\ von \\Fridays for Future\\Musterländle
+%   } & \includegraphics[width=5cm]{Logo.png}
+% \end{tabularx}
 
 % Comment out if no table of contents needed or if you set it later manually
 \tableofcontents
@@ -145,10 +186,19 @@
 Dies hier ist ein Beispieltext, links werden auch entsprechend \href{https://www.youtube.com/watch?v=dQw4w9WgXcQ}{grün Angezeigt}. Das geht auch wenn man die \url{https://www.youtube.com/watch?v=dQw4w9WgXcQ} direkt eingibt.
 \subsection{Strupa2}
 \subsubsection*{ (A) Strupa3}
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
 
 \announcement{Dies sind ausdrücklich Leitlinien, Richtlinien oder Grundsätze und keine festen Regeln. Das Symbol soll möglichst unsere Werte abbilden – wo wollen wir hin, wie möchten wir gemeinsam Aktivismus betreiben?}
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+Lorem ipsum dolor sit amet, consetetur sadipscing eli dsgdfgtr, gdfiajsed jidoigsuifgujdiam
+
+\paralleltext{
+  Die OG legt vor Ablauf der Rückmeldefrist einer OG-Abstimmung oder einer dringenden Abstimmung ein Veto ein. Das Veto muss formal eine Begründung unter Beantwortung folgender Fragen enthalten:
+}{
+  Die AGSK legt vor Ablauf der Rückmeldefrist einer OG-Abstimmung oder einer dringenden Abstimmung ein Veto ein. Das Veto muss formal eine Begründung unter Beantwortung folgender Fragen enthalten:
+}
+
+
+nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren.
 
 \hint{Erklärung, Begründung, Kommentar – keine feste Regel.}
 
